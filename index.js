@@ -12,16 +12,22 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
-
 const upload = multer({ storage: storage });
-
 app.set("view engine", "ejs");
 
-app.get("/upload", (req, res) => {
+app.get("/multiples", (req, res) => {
   res.render("upload");
 });
-app.post("/upload", upload.single("image"), (req, res) => {
-  res.send("Image Uploaded");
+
+//=> for single file upload
+
+// app.post("/upload", upload.single("image"), (req, res) => {
+//   res.send("Image Uploaded");
+// });
+
+//   for multiples files upload ===>>>
+app.post("/multiples", upload.array("images"), (req, res) => {
+  res.send("Multiples Files are uploaded");
 });
 
 app.listen(3000, () => console.log(`Server is up and Running...`));
